@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import MovieLabel from '../atoms/labels/MovieLabel';
 import { movieDataType } from '../types/types';
 
@@ -8,7 +8,8 @@ interface movieSliderType {
 
 const MovieSlider: React.FC<movieSliderType> = ({ moviesData }) => {
   const [page, setPage] = useState(0);
-
+  const [slideRange, setSlideRange] = useState(100);
+  const [slides, setSlides] = useState<JSX.Element[]>([])
   const moviesDataSlice = moviesData.filter((movie, index) => index <= 3);
 
   const movies = moviesDataSlice.map((movie, index) => {
@@ -23,12 +24,27 @@ const MovieSlider: React.FC<movieSliderType> = ({ moviesData }) => {
     </div>
   })
 
-  const dots = moviesDataSlice.map((item, index) => <li onClick={() => setPage(index)} className={`inline-block w-4 h-4 mx-0.5 rounded-full bg-gray-500 ${page === index ? 'bg-blue-500' : ''}`}> </li>)
+  const dots = moviesDataSlice.map((item, index) => <li key={`dot${index}`} onClick={() => setPage(index)} className={`inline-block w-4 h-4 mx-0.5 rounded-full bg-gray-500 ${page === index ? 'bg-blue-500' : ''}`}> </li>);
 
-  const slides = moviesDataSlice.map((item, index) => <li onClick={() => setPage(index)} className={`w-full h-1/3`}>
-    <img src={item.img} alt="" className='w-full h-full' />
-  </li>)
+  const handleSlide = (index: number, j: number) => {
+    setPage(j);
+    setSlideRange(index * 100 + 100);
+  }
 
+  useEffect(() => {
+    const sliders = [];
+    let j = 0;
+    for (let i = 0; i < slides.length + 4; i++) {
+      const pg = j;
+      sliders.push(
+        <li key={`${i}`} onClick={() => handleSlide(i, pg)} className={`w-full h-1/3 transition-transform -translate-x-full`} style={{ transform: `translateY(-${slideRange}%)` }} data-slide={j}>
+          <img src={moviesDataSlice[j].img} alt="" className='w-full h-full' />
+        </li>)
+      j++;
+      if (j >= 4) j = 0;
+    }
+    setSlides(sliders)
+  }, [slideRange])
 
   return (
     <section className='w-full bg-gradient-to-b from-gray-50 to-graycustom'>
@@ -43,7 +59,6 @@ const MovieSlider: React.FC<movieSliderType> = ({ moviesData }) => {
           </ul>
         </div>
       </div>
-
     </section>
   )
 }
