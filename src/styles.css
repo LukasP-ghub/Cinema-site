@@ -15,17 +15,3 @@
 .ratio-2\/1{
   aspect-ratio: 2 / 1;
 }
-
-.item-enter {
-  transform: translateY(-100%);
-}
-.item-enter-active {
-  transition: transform 500ms ease-in;
-}
-
-.item-exit {
-  
-}
-.item-exit-active {
-  transition: transform 500ms ease-in;
-}

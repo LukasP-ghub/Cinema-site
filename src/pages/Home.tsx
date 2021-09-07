@@ -22,7 +22,7 @@ const Home = () => {
           Cinema
         </div>
         <HamburgerBtn click={() => dispatch({ type: SHOW_NAV })} />
-        <nav className={`bg-dark absolute top-full ${showNavClass} w-full z-10`}>
+        <nav className={`bg-dark absolute top-full ${showNavClass} w-full z-10 md:static md:bg-transparent`}>
           <NavList data={navState.categories} />
         </nav>
       </header>

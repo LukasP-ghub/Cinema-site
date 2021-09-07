@@ -26,8 +26,8 @@ const MovieSlider: React.FC<movieSliderType> = ({ moviesData }) => {
 
   const dots = moviesDataSlice.map((item, index) => <li key={`dot${index}`} onClick={() => setPage(index)} className={`inline-block w-4 h-4 mx-0.5 rounded-full bg-gray-500 ${page === index ? 'bg-blue-500' : ''}`}> </li>);
 
-  const handleSlide = (index: number, j: number) => {
-    setPage(j);
+  const handleSlide = (index: number, pg: number) => {
+    setPage(pg);
     setSlideRange(index * 100 + 100);
   }
 
